@@ -1,0 +1,63 @@
+* {
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+.username {
+    font-weight: 600;
+}
+
+.no-underline {
+    text-decoration: none !important;
+}
+
+.navbar {
+    background-color: #F7F7F9;
+}
+
+ul .nav-item {
+    padding-right: 10px;
+}
+
+.btn-success {
+
+    background-color: #5CB85C;
+    border-color: #5CB85C;
+}
+
+.btn-success:hover {
+    background-color: #4D994D;
+    border-color: #4D994D;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    list-style-type: none;
+}
+
+.bg-success {
+    background-color: #5CB85C !important;
+}
+.card{
+    padding: 40px;
+    width: 650px;
+   height: 445px;
+}
+.card form{
+    width: 308px
+}
+
+.register{
+    color: darkgray;
+}
+
+.register:hover{
+    color: royalblue;
+}
+
+.rows-number{
+    width: 84px;
+}
