@@ -1,0 +1,253 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<section class="new-schema">
+    <div class="container">
+
+        <!-- HEADER-->
+        <h2 class="fs-4 mb-4">New schema</h2>
+
+        <!--INPUTS WRAPPING ROW-->
+        <div class="row">
+            <div class="col-md-10">
+
+                <!-- TOP INPUTS-->
+                <div class="row d-flex justify-content-between flex-lg-nowrap flex-wrap">
+                    <div class="col-xl-5 col-lg-7 col-md-12">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="separator" class="form-label">Column separator</label>
+                            <select class="form-select">
+                                <option selected>Comma (,)</option>
+                                <option value="1">----</option>
+                            </select>
+                        </div>
+                        <div class="mb-5">
+                            <label for="character" class="form-label">String character</label>
+                            <select class="form-select">
+                                <option selected>Double-quote (")</option>
+                                <option value="1">----</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!--SUBMIT BUTTON-->
+                    <div class="col mb-5 align-self-end">
+                        <button type="button" class="float-end btn btn-primary px-4">Submit</button>
+                    </div>
+                </div>
+
+                <!--SCHEMA COLUMNS EDIT-->
+                <!--SECON HEADER-->
+                <div class="col-md">
+                    <h2 class="fs-4 mb-4">Schema columns</h2>
+                </div>
+
+                <!--FIRST ROW-->
+                <div class="row mb-3">
+
+                    <div class="col-lg-7 col-md-12">
+                        <div class="row ">
+                            <div class="col-md-7 mb-1">
+                                <label for="col-name" class="form-label">Column name</label>
+                                <input type="text" class="form-control" placeholder="Name">
+                            </div>
+                            <div class="col-md-5 mb-1">
+                                <label for="col-type" class="form-label">Type</label>
+                                <select class="form-select">
+                                    <option selected>Full name</option>
+                                    <option value="1">----</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-md-12 ">
+                        <div class="row">
+
+                            <!--HIDDEN INPUTS-->
+                            <div class="col-md-0 col-lg-5"></div>
+
+                            <div class="col mb-1">
+                                <label for="col-order" class="form-label">Order</label>
+                                <form class="d-flex">
+                                    <input class="form-control" type="text" placeholder="0">
+                                    <button class="btn btn-link no-underline text-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="d-lg-none mb-5"> </div>
+
+
+                <!--SECOND ROW-->
+                <div class="row mb-3">
+
+                    <div class="col-lg-7 col-md-12">
+                        <div class="row ">
+                            <div class="col-md-7 mb-1">
+                                <label for="col-name" class="form-label">Column name</label>
+                                <input type="text" class="form-control" placeholder="Age">
+                            </div>
+                            <div class="col-md-5 mb-1">
+                                <label for="col-type" class="form-label">Type</label>
+                                <select class="form-select">
+                                    <option selected>Integer</option>
+                                    <option value="1">----</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-md-12 ">
+                        <div class="row">
+                            <div class="col-md-5 ">
+                                <div class="row">
+                                    <!--HIDDEN INPUTS-->
+                                    <div class="col-sm mb-1">
+                                        <label for="col-from" class="form-label">From</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="col-sm mb-1">
+                                        <label for="col-to" class="form-label">To</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-7 mb-1">
+                                <label for="col-order" class="form-label">Order</label>
+                                <form class="d-flex">
+                                    <input class="form-control" type="text" placeholder="1">
+                                    <button class="btn btn-link no-underline text-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="d-lg-none mb-5"> </div>
+
+                <!--THIRD ROW-->
+                <div class="row mb-3">
+
+                    <div class="col-lg-7 col-md-12">
+                        <div class="row ">
+                            <div class="col-md-7 mb-1">
+                                <label for="col-name" class="form-label">Column name</label>
+                                <input type="text" class="form-control" placeholder="Company">
+                            </div>
+                            <div class="col-md-5 mb-1">
+                                <label for="col-type" class="form-label">Type</label>
+                                <select class="form-select">
+                                    <option selected>Company</option>
+                                    <option value="1">----</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-md-12 ">
+                        <div class="row">
+
+                            <!--HIDDEN INPUTS-->
+                            <div class="col-md-0 col-lg-5"></div>
+
+                            <div class="col mb-1">
+                                <label for="col-order" class="form-label">Order</label>
+                                <form class="d-flex">
+                                    <input class="form-control" type="text" placeholder="2">
+                                    <button class="btn btn-link no-underline text-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="d-lg-none mb-5"> </div>
+
+                <!--FOURTH ROW-->
+                <div class="row mb-3">
+
+                    <div class="col-lg-7 col-md-12">
+                        <div class="row ">
+                            <div class="col-md-7 mb-1">
+                                <label for="col-name" class="form-label">Column name</label>
+                                <input type="text" class="form-control" placeholder="Job role">
+                            </div>
+                            <div class="col-md-5 mb-1">
+                                <label for="col-type" class="form-label">Type</label>
+                                <select class="form-select">
+                                    <option selected>Job</option>
+                                    <option value="1">----</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-md-12 ">
+                        <div class="row">
+
+                            <!--HIDDEN INPUTS-->
+                            <div class="col-md-0 col-lg-5"></div>
+
+                            <div class="col mb-1">
+                                <label for="col-order" class="form-label">Order</label>
+                                <form class="d-flex">
+                                    <input class="form-control" type="text" placeholder="3">
+                                    <button class="btn btn-link no-underline text-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-5"> </div>
+
+
+                <!--ADDING A NEW ROW-->
+                <div class="row">
+                    <div class="border rounded py-4 mb-5">
+
+                        <!--NEW ROW INPUTS-->
+                        <div class="row mb-3">
+                            <div class="col-md-4  mb-3">
+                                <label for="col-name" class="form-label">Column name</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="col-type" class="form-label">Type</label>
+                                <select class="form-select">
+                                </select>
+                            </div>
+                            <div class="col-md mb-3"></div>
+                            <div class="col-md-3 mb-3">
+                                <label for="col-order" class="form-label">Order</label>
+                                <form class="d-flex">
+                                    <input class="form-control me-2" type="text">
+                                    <button class="btn btn-link no-underline text-danger" type="submit">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!--ADD NEW COLUMN BUTTON-->
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary px-4">Add column</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--GAP-->
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</section>

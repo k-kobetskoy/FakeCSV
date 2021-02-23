@@ -1,0 +1,89 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<section>
+    <div class="container">
+
+        <!--WRAPPING ROW-->
+        <div class="row">
+            <div class="col-lg-9 col-md-12">
+                <div class="row d-flex justify-content-md-between">
+
+                    <!--HEADER-->
+                    <div class="col">
+                        <h2 class="fs-4 mb-4">Data sets</h2>
+                    </div>
+
+                    <!--GENERATE DATA BUTTON-->
+                    <div class="col mb-4 d-flex justify-content-end align-items-center">
+                        <div class="d-flex align-items-center me-3">
+                            <span class="me-3">Rows:</span>
+                            <input type="number" class="form-control rows-number">
+
+                        </div>
+
+                        <a href="new-schema.html" class="btn btn-success px-4 float-end">Generate data</a>
+                    </div>
+                </div>
+
+                <!--TABLE-->
+                <table class="table table-bordered align-middle">
+                    <colgroup>
+                        <col style="width:10%">
+                        <col span="3" style="width:30%">
+                    </colgroup>
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Crated</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>2020-03-16</td>
+                            <td><span class="badge bg-success">Ready</span></td>
+                            <td class="p-1">
+                                <ul>
+                                    <li class="d-inline">
+                                        <a class="btn btn-link no-underline" href="#">Download</a>
+                                    </li>
+
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>2</th>
+                            <td>2020-03-16</td>
+                            <td><span class="badge bg-success">Ready</span></td>
+                            <td class="p-1">
+                                <ul>
+                                    <li class="d-inline">
+                                        <a class="btn btn-link no-underline" href="#">Download</a>
+                                    </li>
+
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>3</th>
+                            <td>2020-03-16</td>
+                            <td><span class="badge bg-secondary">Processing</span></td>
+                            <td class="p-1">
+                                <ul>
+                                    <li class="d-inline">
+                                        <a class="btn btn-link no-underline" href="#">Download</a>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

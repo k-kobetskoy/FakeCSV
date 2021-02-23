@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace FakeCSV.Controllers
 {
-    public class HomeController : Controller
+    public class DataSetsController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Register()
         {
             return View();
         }
