@@ -7,14 +7,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FakeCSV.DAL.Context;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FakeCSV
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
+
+        public Startup( IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
        
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<FakeCsvDbContext>(opt =>
+                opt.UseSqlServer(configuration.GetConnectionString("Default")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<FakeCsvDbContext>();
+
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
@@ -30,7 +47,9 @@ namespace FakeCSV
             app.UseStaticFiles();
             app.UseRouting();
 
-           
+            app.UseAuthentication();    
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
