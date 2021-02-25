@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FakeCSV.DAL.Context;
+using FakeCSV.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,13 +32,16 @@ namespace FakeCSV
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<FakeCsvDbContext>();
 
-
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddTransient<DataInitializer>();
         }
 
      
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataInitializer dbInitializer)
         {
+            dbInitializer.Initialize();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

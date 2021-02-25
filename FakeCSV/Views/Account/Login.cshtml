@@ -1,0 +1,41 @@
+﻿@model LoginViewModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="container d-flex justify-content-center">
+    <div class="card">
+        <div class="card-body d-flex flex-column align-items-center">
+            <form asp-controller="Account" asp-action="Login" class="text-center">
+                <h1 class="fs-3 mb-5 ">Login</h1>
+                <div asp-validation-summary="ModelOnly" class="text-danger  fs-6"></div>
+                <small><span asp-validation-summary="ModelOnly" class="text-danger"></span></small>
+                
+                <input asp-for="ReturnUrl" type="hidden" class="form-control">
+
+                <div>
+                    <label asp-for="Email" class="invisible">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" placeholder="Email">
+                    <small><span asp-validation-for="Email" class="text-danger"></span></small>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Password" class="invisible">Password</label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+                    <small><span asp-validation-for="Password" class="text-danger"></span></small>
+                </div>
+
+                <div class="mb-5 d-flex justify-content-end align-items-center">
+                    <div class="form-check me-5">
+                        <input asp-for="RememberMe" type="checkbox" class="form-check-input">
+                        <label class="form-check-label" asp-for="RememberMe">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4">Login</button>
+                </div>
+            </form>
+            <a class="register btn btn-link no-underline" asp-controller="Account" asp-action="Register">Register</a>
+        </div>
+    </div>
+</div>
+
+

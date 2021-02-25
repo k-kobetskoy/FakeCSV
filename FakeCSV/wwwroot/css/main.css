@@ -41,12 +41,11 @@ ul li {
 .bg-success {
     background-color: #5CB85C !important;
 }
-.card{
+.card {
     padding: 40px;
     width: 650px;
-   height: 445px;
-}
-.card form{
+        }
+.card .form-control {
     width: 308px
 }
 

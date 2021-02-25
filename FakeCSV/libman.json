@@ -4,9 +4,10 @@
   "libraries": [
     {
       "library": "twitter-bootstrap@5.0.0-beta1",
-      "destination": "wwwroot/lib/bootstrap/",
+      "destination": "wwwroot/lib/twitter-bootstrap/",
       "files": [
-        "css/bootstrap.css"
+        "css/bootstrap.min.css",
+        "css/bootstrap.min.css.map"
       ]
     }
   ]
