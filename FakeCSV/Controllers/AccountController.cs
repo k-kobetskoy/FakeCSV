@@ -30,7 +30,7 @@ namespace FakeCSV.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
@@ -49,7 +49,7 @@ namespace FakeCSV.Controllers
                 ModelState.AddModelError("", "there is no such user or wrong password!");
                 return View(model);
             }
-            
+
             var result = await signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 
             if (!result.Succeeded)
@@ -58,13 +58,14 @@ namespace FakeCSV.Controllers
                 ModelState.AddModelError("", "there is no such user or wrong password!");
                 return View(model);
             }
-
             logger.LogInformation(" user {0} successfuly signed in", model.Email);
-            logger.LogInformation(" redirecting to returnUrl");
-            if (Url.IsLocalUrl(model.ReturnUrl))
-                return Redirect(model.ReturnUrl);
 
-            logger.LogError(" redirect failed! returnUrl is not local url");
+            if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
+            {
+                logger.LogInformation(" redirecting to returnUrl");
+                return Redirect(model.ReturnUrl);
+            }
+
             logger.LogInformation(" redirecting to home page");
             return RedirectToAction("Index", "Home");
         }
@@ -80,13 +81,14 @@ namespace FakeCSV.Controllers
         {
             if (!ModelState.IsValid) return View("Register", model);
 
+
             var role = configuration.GetSection("Roles")["Users"].ToUpper();
             if (!AnyUserExist())
                 role = configuration.GetSection("Roles")["Administrators"].ToUpper();
 
             var userName = model.Email.Remove(model.Email.IndexOf('@'));
 
-            logger.LogInformation("creating new user entry {0}", userName);
+            logger.LogInformation("creating new user entry {0} in role{1}", userName, role);
             IdentityUser user = new IdentityUser() { UserName = userName, Email = model.Email };
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
@@ -99,7 +101,6 @@ namespace FakeCSV.Controllers
                 return View(model);
             }
             logger.LogInformation("user entry {0} created successfuly", userName);
-
 
             logger.LogInformation("assigning user {0} to role {1}", userName, role);
             result = await userManager.AddToRoleAsync(user, role);
@@ -118,6 +119,17 @@ namespace FakeCSV.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            logger.LogInformation("user {0} is signig out", User.Identity!.Name);
+            await signInManager.SignOutAsync();
+            logger.LogInformation("user signed out successfuly");
+            
+            logger.LogInformation("redirecting to ligin page");
+            return RedirectToAction("Login", "Account");
+        }
+
         [AcceptVerbs("Get", "Post")]
         public IActionResult CheckEmail(string Email)
         {
@@ -126,7 +138,6 @@ namespace FakeCSV.Controllers
 
             return Json(true);
         }
-
         private bool AnyUserExist() => userManager.Users.Any();
         private bool FindSame(string email) => !userManager.Users.Select(u => u.Email == email).Any();
     }
