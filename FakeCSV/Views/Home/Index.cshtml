@@ -2,6 +2,10 @@
     Layout = "_Layout";
 }
 
+<header>
+    <partial name="Partial/_NavBar" />
+</header>
+
 <section class="data-schemas">
     <div class="container">
 
@@ -17,7 +21,7 @@
 
                     <!--SUBMIT BUTTON-->
                     <div class="col mb-4 ">
-                        <a href="new-schema.html" class="btn btn-success px-4 float-end">New schema</a>
+                        <a asp-controller="NewSchema" asp-action="Index" class="btn btn-success px-4 float-end">New schema</a>
                     </div>
                 </div>
 
@@ -39,7 +43,7 @@
                     <tbody>
                         <tr>
                             <th>1</th>
-                            <td class="p-1"><a class="btn btn-link no-underline" href="#">Customers</a></td>
+                            <td class="p-1"><a class="btn btn-link no-underline"  asp-controller="DataSets" asp-action="Index" asp-route-id="1">Customers</a></td>
                             <td>2020-03-16</td>
                             <td class="p-1">
                                 <ul>
