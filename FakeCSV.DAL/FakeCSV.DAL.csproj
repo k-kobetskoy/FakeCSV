@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FakeCSV.Domain\FakeCSV.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -4,14 +4,16 @@ using FakeCSV.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FakeCSV.DAL.Migrations
 {
     [DbContext(typeof(FakeCsvDbContext))]
-    partial class FakeCsvDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210304151458_Schema-ColumnEntities")]
+    partial class SchemaColumnEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,7 @@ namespace FakeCSV.DAL.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Order")
                         .HasColumnType("int");
@@ -42,8 +42,7 @@ namespace FakeCSV.DAL.Migrations
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UpperLimit")
                         .HasColumnType("int");
@@ -62,20 +61,13 @@ namespace FakeCSV.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
                     b.Property<string>("Quotation")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Separator")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -280,11 +272,9 @@ namespace FakeCSV.DAL.Migrations
 
             modelBuilder.Entity("FakeCSV.Domain.Models.Column", b =>
                 {
-                    b.HasOne("FakeCSV.Domain.Models.Schema", "Schema")
+                    b.HasOne("FakeCSV.Domain.Models.Schema", null)
                         .WithMany("Columns")
                         .HasForeignKey("SchemaId");
-
-                    b.Navigation("Schema");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

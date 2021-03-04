@@ -125,7 +125,7 @@ namespace FakeCSV.Controllers
             logger.LogInformation("user {0} is signig out", User.Identity!.Name);
             await signInManager.SignOutAsync();
             logger.LogInformation("user signed out successfuly");
-            
+
             logger.LogInformation("redirecting to ligin page");
             return RedirectToAction("Login", "Account");
         }

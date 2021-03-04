@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\DataSets\Index.cshtml" />
     <Content Remove="Views\NewSchema\Index.cshtml" />
   </ItemGroup>
 
@@ -19,16 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="Views\DataSets\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Views\DataSets\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\NewSchema\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\DataSets\Index.cshtml" />
+    <None Include="Views\Home\Schema.cshtml" />
     <None Include="Views\NewSchema\Index.cshtml" />
   </ItemGroup>
 

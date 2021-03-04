@@ -12,13 +12,21 @@ namespace FakeCSV.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-       
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-       
+        [HttpGet]
+        public IActionResult Schema(int id)
+        {
+            
+            //get schema by id, create schema view model, send it to view
+            return View();
+        }
+
+
 
 
     }
