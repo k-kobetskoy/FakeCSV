@@ -11,7 +11,7 @@
 <div class="container">
 
     <!-- HEADER-->
-    <h2 class="fs-4 mb-4">New schema</h2>
+    <h2 class="fs-4 mb-4">@ViewBag.Title</h2>
 
     <!--INPUTS WRAPPING ROW-->
     <div class="row">
@@ -48,7 +48,8 @@
 
                     <!--+++++++++ SUBMIT BUTTON +++++++++-->
                     <div class="col mb-5 align-self-end">
-                        <input type="submit" formaction="NewSchema/Submit" formmethod="post" name="submit" class="float-end btn btn-primary px-4" value="Submit">
+                        <input type="submit" asp-controller="Home"
+                               asp-action="Submit" formmethod="post" name="submit" class="float-end btn btn-primary px-4" value="Submit">
                     </div>
                 </div>
 
@@ -112,8 +113,8 @@
                                                        formmethod="post"
                                                        name="Delete"
                                                        value="Delete"
-                                                       asp-action="Delete"
-                                                       asp-controller="NewSchema"
+                                                       asp-action="DeleteColumn"
+                                                       asp-controller="Home"
                                                        asp-route-deleteid="@(i)"
                                                        class="btn btn-link no-underline text-danger">
                                             </div>
@@ -198,7 +199,7 @@
                                        formmethod="post"
                                        name="addcolumn"
                                        value="Add Column"
-                                       asp-controller="NewSchema"
+                                       asp-controller="Home"
                                        asp-action="AddColumn"
                                        class="btn btn-primary px-4">
                             </div>

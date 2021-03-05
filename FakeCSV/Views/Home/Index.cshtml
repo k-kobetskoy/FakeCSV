@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<SchemaViewModel>
+@{
     Layout = "_Layout";
 }
 
@@ -19,75 +20,69 @@
                         <h2 class="fs-4 mb-4">Data schemas</h2>
                     </div>
 
-                    <!--SUBMIT BUTTON-->
+                    <!--NEW SCHEMA BUTTON-->
                     <div class="col mb-4 ">
-                        <a asp-controller="NewSchema" asp-action="Index" class="btn btn-success px-4 float-end">New schema</a>
+                        <a asp-controller="Home" asp-action="Edit" class="btn btn-success px-4 float-end">New schema</a>
                     </div>
                 </div>
 
                 <!--TABLE-->
-                <table class="table table-bordered align-middle">
-                    <colgroup>
-                        <col style="width:10%">
-                        <col span="3" style="width:30%">
-                    </colgroup>
+                @if (Model.Any())
+                {
+                    <table class="table table-bordered align-middle">
+                        <colgroup>
+                            <col style="width:10%">
+                            <col span="3" style="width:30%">
+                        </colgroup>
 
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Title</th>
-                            <th>Modified</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td class="p-1"><a class="btn btn-link no-underline"  asp-controller="Home" asp-action="Schema" asp-route-id="1">Customers</a></td>
-                            <td>2020-03-16</td>
-                            <td class="p-1">
-                                <ul>
-                                    <li class="d-inline">
-                                        <a class="btn btn-link no-underline" href="#">Edit scheme</a>
-                                    </li>
-                                    <li class="d-inline">
-                                        <a class="btn btn-link no-underline text-danger" href="#">Delete</a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>2</th>
-                            <td class="p-1"><a class="btn btn-link no-underline" href="#">Appartments</a></td>
-                            <td>2020-03-16</td>
-                            <td class="p-1">
-                                <ul>
-                                    <li class="d-inline">
-                                        <a class="btn btn-link no-underline" href="#">Edit scheme</a>
-                                    </li>
-                                    <li class="d-inline">
-                                        <a class="btn btn-link no-underline text-danger" href="#">Delete</a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>3</th>
-                            <td class="p-1"><a class="btn btn-link no-underline" href="#">Influencers</a></td>
-                            <td>2020-03-16</td>
-                            <td class="p-1">
-                                <ul>
-                                    <li class="d-inline">
-                                        <a class="btn btn-link no-underline" href="#">Edit scheme</a>
-                                    </li>
-                                    <li class="d-inline">
-                                        <a class="btn btn-link no-underline text-danger" href="#">Delete</a>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{int i= 1;}
+                            @foreach (var schema in Model)
+                            {
+                                <tr>
+                                    <th>@(i++)</th>
+                                    <td class="p-1"><a class="btn btn-link no-underline" asp-controller="Home" asp-action="Details" asp-route-id="@schema.Id">@schema.Name</a></td>
+                                    <td>@schema.UpdateTime.ToString("yyyy-MM-dd")</td>
+                                    <td class="p-1">
+                                        <ul>
+                                            <li class="d-inline">
+                                                <a class="btn btn-link no-underline"
+                                                   asp-controller="Home" asp-action="Edit"
+                                                   asp-route-id="@schema.Id">Edit scheme</a>
+                                            </li>
+                                            <li class="d-inline">
+                                                <a class="btn btn-link no-underline text-danger"
+                                                   asp-controller="Home"
+                                                   asp-action="DeleteScheme">Delete</a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+
+                            <tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="fs-5 mb-4">There is no any scheme yet</h3>
+                        </div>
+                    </div>
+                }
+
+
             </div>
         </div>
     </div>

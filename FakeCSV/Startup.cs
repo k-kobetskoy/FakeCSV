@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FakeCSV.DAL.Context;
 using FakeCSV.Data;
+using FakeCSV.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +32,8 @@ namespace FakeCSV
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<FakeCsvDbContext>();
+
+            services.AddTransient<ISchemaDataService, SchemaDataService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
