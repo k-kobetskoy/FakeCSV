@@ -15,7 +15,7 @@ namespace FakeCSV.Domain.ViewModels
     public class NewSchemaViewModel
     {
         [Required]
-        [MaxLength(20)]
+        [MaxLength(50)]
         [Display(Name = "Schema name")]
         public string Name { get; set; }
 

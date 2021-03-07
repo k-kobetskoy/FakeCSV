@@ -59,7 +59,7 @@ namespace FakeCSV.Services
             schema.Name = newSchema.Name;
             schema.Quotation = newSchema.Quotation;
             schema.Separator = newSchema.Separator;
-            schema.UpdateTime=DateTime.Now;
+            schema.UpdateTime = DateTime.Now;
             dbContext.SaveChanges();
         }
 

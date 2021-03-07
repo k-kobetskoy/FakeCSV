@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using FakeCSV.Data;
 using FakeCSV.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FakeCSV.Domain.ViewModels
 {
@@ -9,14 +10,13 @@ namespace FakeCSV.Domain.ViewModels
     {
         [Required]
         [Display(Name = "Column name")]
-        [MaxLength(20)]
+        [MaxLength(50)]
         public string ColumnName { get; set; }
 
 
         [Display(Name = "Column type")]
         public ColumnType Type { get; set; }
-
-
+        
         [Display(Name = "Order")]
         public int Order { get; set; }
 
@@ -25,6 +25,5 @@ namespace FakeCSV.Domain.ViewModels
         [Display(Name = "Upper limit")]
         public int? UpperLimit { get; set; }
 
-        
     }
 }

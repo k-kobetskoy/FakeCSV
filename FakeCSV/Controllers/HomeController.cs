@@ -1,13 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FakeCSV.Domain.Models;
+﻿using FakeCSV.Domain.Models;
 using FakeCSV.Domain.ViewModels;
 using FakeCSV.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace FakeCSV.Controllers
@@ -44,7 +42,7 @@ namespace FakeCSV.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult Data(int id)
         {
             return View();
         }
@@ -62,14 +60,14 @@ namespace FakeCSV.Controllers
 
 
         #region Edit Schema / Create New Schema
-      
+
         [HttpGet]
         public IActionResult Edit(int? id)
         {
             if (id is null)
             {
                 ViewBag.Title = "New Schema";
-                return View(new NewSchemaViewModel());
+                return View(new NewSchemaViewModel {AddColumnOrder = 1});
             }
 
             var schema = dataService.GetSchemaById((int)id);
@@ -85,8 +83,10 @@ namespace FakeCSV.Controllers
                     UpperLimit = c.UpperLimit,
                     Order = c.Order,
                     Type = c.Type,
-                }).ToList()
-            };
+                }).ToList(),
+                AddColumnOrder = schema.Columns.Max(c=>c.Order)+1,
+
+        };
 
             ViewBag.Title = $"Edit Schema {model.Name}";
             return View(model);
@@ -119,9 +119,13 @@ namespace FakeCSV.Controllers
                 });
             }
 
+
+
             model.AddColumnUpperLimit = 0;
             model.AddColumnName = null;
-            model.AddColumnOrder = 0;
+            model.AddColumnOrder = model.Columns.Max(c => c.Order) == 0
+                ? 1
+                : model.Columns.Max(c => c.Order) + 1;
             model.AddColumnType = 0;
             model.AddColumnLowerLimit = 0;
 
@@ -179,13 +183,16 @@ namespace FakeCSV.Controllers
 
             model.AddColumnUpperLimit = 0;
             model.AddColumnName = null;
-            model.AddColumnOrder = 0;
+            model.AddColumnOrder = model.Columns.Max(c => c.Order) == 0
+                    ? 1 
+                    : model.Columns.Max(c => c.Order) + 1;
             model.AddColumnType = 0;
             model.AddColumnLowerLimit = 0;
 
             ModelState.Clear();
             return View("Edit", model);
-        } 
+        }
+
 
         #endregion
 

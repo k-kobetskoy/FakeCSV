@@ -21,8 +21,8 @@ namespace FakeCSV.DAL.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Schema>().Property(p => p.Name).IsRequired().HasMaxLength(20);
-            modelBuilder.Entity<Column>().Property(p => p.Name).IsRequired().HasMaxLength(20);
+            modelBuilder.Entity<Schema>().Property(p => p.Name).IsRequired().HasMaxLength(50);
+            modelBuilder.Entity<Column>().Property(p => p.Name).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Schema>().HasMany(e => e.Columns).WithOne(e => e.Schema);
 
             modelBuilder

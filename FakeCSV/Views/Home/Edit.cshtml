@@ -66,16 +66,17 @@
                             <div class="row mb-3">
                                 <div class="col-lg-7 col-md-12">
                                     <div class="row ">
+                                        
                                         <div class="col-md-7 mb-1">
                                             <label asp-for="@(Model.Columns[i].ColumnName)" class="form-label"></label>
-                                            <input type="text" class="form-control" asp-for="@(Model.Columns[i].ColumnName)" readonly>
+                                            <input type="text" class="form-control" asp-for="@(Model.Columns[i].ColumnName)">
                                             <span class="text-danger" asp-validation-for="@(Model.Columns[i].ColumnName)"></span>
                                         </div>
 
                                         <div class="col-md-5 mb-1">
                                             <label class="form-label" asp-for="@(Model.Columns[i].Type)"></label>
                                             <select class="form-select" asp-for="@(Model.Columns[i].Type)"
-                                                    asp-items="Html.GetEnumSelectList<ColumnType>()" disabled>
+                                                    asp-items="Html.GetEnumSelectList<ColumnType>()">
                                             </select>
                                         </div>
 
@@ -91,12 +92,12 @@
                                                 {
                                                     <div class="col-sm mb-1">
                                                         <label asp-for="@(Model.Columns[i].LowerLimit)" class="form-label">From</label>
-                                                        <input asp-for="@(Model.Columns[i].LowerLimit)" type="number" class="form-control" readonly>
+                                                        <input asp-for="@(Model.Columns[i].LowerLimit)" type="number" class="form-control" >
                                                         <span asp-validation-for="@(Model.Columns[i].LowerLimit)" class="text-danger"></span>
                                                     </div>
                                                     <div class="col-sm mb-1">
                                                         <label asp-for="@(Model.Columns[i].UpperLimit)" class="form-label">To</label>
-                                                        <input asp-for="@(Model.Columns[i].UpperLimit)" type="number" class="form-control" readonly>
+                                                        <input asp-for="@(Model.Columns[i].UpperLimit)" type="number" class="form-control" >
                                                         <span asp-validation-for="@(Model.Columns[i].UpperLimit)" class="text-danger"></span>
                                                     </div>
                                                 }
@@ -106,7 +107,8 @@
                                         <div class="col-md-7 mb-1">
                                             <label asp-for="@(Model.Columns[i].Order)" class="form-label"></label>
                                             <div class="d-flex">
-                                                <input asp-for="@(Model.Columns[i].Order)" class="form-control" type="number" readonly>
+                                              
+                                                <input asp-for="@(Model.Columns[i].Order)" class="form-control" type="number">
 
                                                 <!--++++++++++++++++DELETE BUTTON++++++++++++++++-->
                                                 <input type="submit"
