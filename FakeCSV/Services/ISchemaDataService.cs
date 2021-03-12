@@ -1,5 +1,7 @@
 ﻿using FakeCSV.Domain.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using FakeCSV.Domain.ViewModels;
 
 namespace FakeCSV.Services
 {
@@ -10,5 +12,7 @@ namespace FakeCSV.Services
         Schema GetSchemaById(int id);
         IEnumerable<Schema> GetSchemas();
         void UpdateSchema(Schema newSchema);
+        IEnumerable<DataSet> GetDataSets(int id);
+        Task GenerateData(int schemaId, int rows);
     }
 }

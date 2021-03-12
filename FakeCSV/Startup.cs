@@ -34,6 +34,7 @@ namespace FakeCSV
                 .AddEntityFrameworkStores<FakeCsvDbContext>();
 
             services.AddTransient<ISchemaDataService, SchemaDataService>();
+            //services.AddTransient<ICsvGenerateDataService, CsvGenerateDataService>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 

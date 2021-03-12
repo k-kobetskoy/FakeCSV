@@ -10,18 +10,18 @@ namespace FakeCSV.Domain.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required (ErrorMessage = "Не указан адрес электронной почты")]
-        [EmailAddress(ErrorMessage = "Некорректный адрес")]
-        [Remote(action: "CheckEmail", controller: "Account", ErrorMessage = "адрес уже используется")]
+        [Required (ErrorMessage = "Email address not specified")]
+        [EmailAddress(ErrorMessage = "Invalid address")]
+        [Remote(action: "CheckEmail", controller: "Account", ErrorMessage = "The address is already in use")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Не указан пароль")]
+        [Required(ErrorMessage = "Password not specified")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         
-        [Required(ErrorMessage = "Не указано подтверждение пароля")]
+        [Required(ErrorMessage = "Password confirmation not specified")]
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Пароли не совпадают")]
+        [Compare("Password", ErrorMessage = "Password mismatch")]
         public string PasswordConfirmation { get; set; }
     }
 }

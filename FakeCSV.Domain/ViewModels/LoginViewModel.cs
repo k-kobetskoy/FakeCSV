@@ -11,11 +11,11 @@ namespace FakeCSV.Domain.ViewModels
     public class LoginViewModel
     {
 
-        [Required(ErrorMessage = "Не указан адрес электронной почты")]
-        [EmailAddress(ErrorMessage = "Некорректный адрес")]
+        [Required(ErrorMessage = "Email address not specified")]
+        [EmailAddress(ErrorMessage = "Invalid address")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Не указан пароль")]
+        [Required(ErrorMessage = "Password not specified")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

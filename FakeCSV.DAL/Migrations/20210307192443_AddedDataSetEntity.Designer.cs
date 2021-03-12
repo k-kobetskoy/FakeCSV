@@ -4,14 +4,16 @@ using FakeCSV.DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FakeCSV.DAL.Migrations
 {
     [DbContext(typeof(FakeCsvDbContext))]
-    partial class FakeCsvDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210307192443_AddedDataSetEntity")]
+    partial class AddedDataSetEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,9 +69,6 @@ namespace FakeCSV.DAL.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RowsNumber")
-                        .HasColumnType("int");
 
                     b.Property<int?>("SchemaId")
                         .HasColumnType("int");

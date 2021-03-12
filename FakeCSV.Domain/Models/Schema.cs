@@ -15,6 +15,7 @@ namespace FakeCSV.Domain.Models
         [Column(TypeName = "datetime")]
         public DateTime? UpdateTime { get; set; }
         public ICollection<Column> Columns { get; set; }
+        public ICollection<DataSet> DataSets { get; set; }
 
 
     }

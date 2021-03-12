@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 
 namespace FakeCSV.Controllers
@@ -14,10 +16,12 @@ namespace FakeCSV.Controllers
     public class HomeController : Controller
     {
         private readonly ISchemaDataService dataService;
+        private readonly ILogger<HomeController> logger;
 
-        public HomeController(ISchemaDataService dataService)
+        public HomeController(ISchemaDataService dataService, ILogger<HomeController> logger)
         {
             this.dataService = dataService;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -41,13 +45,6 @@ namespace FakeCSV.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult Data(int id)
-        {
-            return View();
-        }
-
-
         public IActionResult DeleteScheme()
         {
             throw new NotImplementedException();
@@ -67,7 +64,7 @@ namespace FakeCSV.Controllers
             if (id is null)
             {
                 ViewBag.Title = "New Schema";
-                return View(new NewSchemaViewModel {AddColumnOrder = 1});
+                return View(new NewSchemaViewModel { AddColumnOrder = 1 });
             }
 
             var schema = dataService.GetSchemaById((int)id);
@@ -84,9 +81,9 @@ namespace FakeCSV.Controllers
                     Order = c.Order,
                     Type = c.Type,
                 }).ToList(),
-                AddColumnOrder = schema.Columns.Max(c=>c.Order)+1,
+                AddColumnOrder = schema.Columns.Max(c => c.Order) + 1,
 
-        };
+            };
 
             ViewBag.Title = $"Edit Schema {model.Name}";
             return View(model);
@@ -184,7 +181,7 @@ namespace FakeCSV.Controllers
             model.AddColumnUpperLimit = 0;
             model.AddColumnName = null;
             model.AddColumnOrder = model.Columns.Max(c => c.Order) == 0
-                    ? 1 
+                    ? 1
                     : model.Columns.Max(c => c.Order) + 1;
             model.AddColumnType = 0;
             model.AddColumnLowerLimit = 0;
@@ -197,6 +194,48 @@ namespace FakeCSV.Controllers
         #endregion
 
 
+
+        public IActionResult DownloadCsv(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public IActionResult GenerateCsv(DataSetsPageViewModel model)
+        {
+            var schemaId = model.SchemaId;
+            var rowsNumber = model.RowsNumber;
+
+            dataService.GenerateData(schemaId, rowsNumber);
+
+            return RedirectToAction("Data", new { id =model.SchemaId });
+        }
+
+        [HttpGet]
+        public IActionResult Data(int id)
+        {
+            var schema = dataService.GetSchemaById(id);
+            ViewBag.Title = $"Data Sets for {schema.Name}";
+            var model = new DataSetsPageViewModel
+            {
+                SchemaId = id,
+                SchemaName = schema.Name,
+                RowsNumber = 1,
+            };
+
+            var dataSets = schema.DataSets.ToList();
+            if (!dataSets.Any())
+                return View(model);
+
+            model.DataSets = dataSets.Select(d => new DataSetViewModel
+            {
+                Id = d.Id,
+                CreationTime = d.CreationTime,
+                Name = d.Name,
+            });
+
+            return View(model);
+        }
 
 
     }

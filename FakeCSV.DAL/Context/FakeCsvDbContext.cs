@@ -15,6 +15,8 @@ namespace FakeCSV.DAL.Context
         public DbSet<Schema> Schemas { get; set; }
         public DbSet<Column> Columns { get; set; }
 
+        public DbSet<DataSet> DataSets { get; set; }
+
         public FakeCsvDbContext(DbContextOptions<FakeCsvDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,6 +26,8 @@ namespace FakeCSV.DAL.Context
             modelBuilder.Entity<Schema>().Property(p => p.Name).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Column>().Property(p => p.Name).IsRequired().HasMaxLength(50);
             modelBuilder.Entity<Schema>().HasMany(e => e.Columns).WithOne(e => e.Schema);
+            modelBuilder.Entity<Schema>().HasMany(e => e.DataSets).WithOne(e => e.Schema);
+
 
             modelBuilder
                 .Entity<Schema>()
