@@ -54,17 +54,10 @@ namespace FakeCSV.Controllers
             var rowsNumber = rows;
 
             var dataSetId = await csvService.GenerateData(schemaId, rowsNumber);
-
             var dataSet = dataService.GetDatasetById(dataSetId);
 
-            var result = new DataSetViewModel()
-            {
-                Name = dataSet.Name,
-                CreationTime = dataSet.CreationTime,
-                Id = dataSet.Id
-            };
-            var res = Json(result);
-            return Ok(res);
+            var result = dataSet.Name;
+            return Content(result);
         }
 
 
@@ -75,9 +68,15 @@ namespace FakeCSV.Controllers
 
 
         [HttpGet]
-        public IActionResult AppendNewRow()
+        public IActionResult AppendNewRow(int number)
         {
-            return PartialView("Partial/_DataTableRow");
+            var model = new PartialTableRowViewModel()
+            {
+                RowNumber = number,
+                CreationDate = DateTime.Now,
+                
+            };
+            return PartialView("Partial/_DataTableRow", model);
         }
 
 

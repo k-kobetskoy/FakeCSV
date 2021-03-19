@@ -2,23 +2,25 @@
     console.log(data);
 }
 
-function appendRow(data, resultBlock) {
-   
+function appendRow(data, resultBlock, buttonToDisable) {
+
     const promise = new Promise((resolve, reject) => {
         const table = resultBlock;
         table.insertAdjacentHTML('beforeend', data);
+        buttonToDisable.classList.add('disabled');
         resolve();
     });
     return promise;
 };
 
-function getRow(actionUrl) {
+function getRow(actionUrl, tableRowQuantity) {
 
     const promise = $.ajax({
         url: actionUrl,
+        data: { number: tableRowQuantity },
         dataType: 'html'
     });
-    return promise; 
+    return promise;
 }
 
 function generateData(rowsNumber, schemaId, actionUrl, successCallback) {
@@ -27,39 +29,32 @@ function generateData(rowsNumber, schemaId, actionUrl, successCallback) {
         url: actionUrl,
         data: { id: schemaId, rows: rowsNumber },
         method: 'POST',
-        dataType: 'JSON',
+        dataType: 'TEXT',
         success: function (data) {
             successCallback(data);
         }
     });
 };
 
-function editRowData(id, date, idResultBlock, dateResultBlock) {
+function setReadyState(name, actionUrl, buttonToEnable, rowId) {
 
-    const promise = new Promise((resolve, reject) => {
-        const spanId = document.querySelector(idResultBlock);
-        spanId.textContent = id;
-        spanId.id += `-${id}`;
-        const spanDate = document.querySelector(dateResultBlock);
-        spanDate.textContent = date;
-        spanDate.id += `-${id}`;
-        resolve();
-    });
-    return promise; 
-}
+    const row = document.querySelector(rowId);
+    const link = row.querySelector('a');
 
-function setReadyState(name, linkId, actionUrl, badgeId) {
-    
-    const link = document.querySelector(linkId);
+    link.href = actionUrl + '/name=' + name;
     if (link.classList.contains('disabled')) {
         link.classList.remove('disabled');
     }
-    link.href = actionUrl + '/name=' + name;
-    link.id = '';
-    
-    const badge = document.querySelector(badgeId);
+
+    const badge = row.querySelector('span');
     badge.classList.replace('bg-secondary', 'bg-success');
     badge.textContent = 'Ready';
-    badge.id = '';
+
+    const rowNumber = row.querySelector('th').textContent;
+    row.id += '-' + rowNumber;
+
+    if (buttonToEnable.classList.contains('disabled')) {
+        buttonToEnable.classList.remove('disabled');
+    }
 }
 

@@ -1,5 +1,4 @@
-﻿@using FakeCSV.Controllers
-@model DataSetsPageViewModel
+﻿@model DataSetsPageViewModel
 @{
     Layout = "_Layout";
 }
@@ -75,12 +74,7 @@
                                     </td>
                                 </tr>
                             }
-
-
                         }
-
-
-
                     </tbody>
                 </table>
             </div>
@@ -94,46 +88,32 @@
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
 
     <script src="~/axios/axios.min.js"></script>
-    <script src="~/js/site.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <script type="text/javascript">
+    <script type="text/javascript" asp-append-version="true">
         const table = document.querySelector('#data-table');
         const resultBlock = document.querySelector('#data-table-body');
         const generateDataButton = document.querySelector('#generate-data-button');
         const rowsNumberInput = document.querySelector('#rows-number');
         const schemaId = document.querySelector('#schema-id');
-        const  rowId ='#row-number';
-        const rowDatetime = '#date-time';
-        const stateBadgeName = '#badge';
-        const downloadLinkId = '#download-csv-button';
+
+        const newRowId = '#new-row';
+
         const downloadCsvUrl = '@Url.Action("DownloadCsv", "Data")';
-        var today = new Date();
-        var currentDay = today.getDate();
-        if (currentDay < 10) { currentDay = `0${currentDay}`; }
-        var currentMonth = today.getMonth()+1;
-        if (currentMonth < 10) {currentMonth=`0${currentMonth}`}
-        var date = today.getFullYear() + '-' + currentMonth + '-' + currentDay;
         const appendRowActionUrl = '@Url.Action("AppendNewRow", "Data")';
         const generateCsvActionUrl = '@Url.Action("GenerateCsv", "Data")';
 
         generateDataButton.addEventListener("click", () => {
-                getRow(appendRowActionUrl)
-                    .then((data) => { appendRow(data, resultBlock) })
+            getRow(appendRowActionUrl, table.rows.length)
+                    .then((data) => { appendRow(data, resultBlock, generateDataButton) })
                     .then(() => {
-                        editRowData(table.rows.length - 1, date, rowId, rowDatetime);
+                        generateData(rowsNumberInput.value, schemaId.value, generateCsvActionUrl, succsessCallback);
                     })
-                    .then(() => {
-                        generateData(rowsNumberInput.value, schemaId.value, generateCsvActionUrl, succseesCallback);
-                    })
-                    // Then not working :(
-                    //.then((data) => {
-                    //    setReadyState(data, downloadLinkId, downloadCsvUrl);
-                    //})
-                .catch(error => alert(error.message));
+                   .catch(error => alert(error.message));
         });
 
-        function succseesCallback(data) {
-           setReadyState(data.value.name, downloadLinkId, downloadCsvUrl, stateBadgeName);
+        function succsessCallback(data) {
+           setReadyState(data, downloadCsvUrl, generateDataButton, newRowId);
         };
 
     </script>

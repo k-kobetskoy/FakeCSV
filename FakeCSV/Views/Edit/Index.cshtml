@@ -66,13 +66,13 @@
                             <div class="row mb-3">
                                 <div class="col-lg-7 col-md-12">
                                     <div class="row ">
-
+                                        <!--Column Name-->
                                         <div class="col-md-7 mb-1">
                                             <label asp-for="@(Model.Columns[i].ColumnName)" class="form-label"></label>
                                             <input type="text" class="form-control" asp-for="@(Model.Columns[i].ColumnName)">
                                             <span class="text-danger" asp-validation-for="@(Model.Columns[i].ColumnName)"></span>
                                         </div>
-
+                                        <!--Column Type-->
                                         <div class="col-md-5 mb-1">
                                             <label class="form-label" asp-for="@(Model.Columns[i].Type)"></label>
                                             <select class="form-select" asp-for="@(Model.Columns[i].Type)"
@@ -87,7 +87,7 @@
                                     <div class="row">
                                         <div class="col-md-5 ">
                                             <div class="row">
-                                                <!--HIDDEN INPUTS-->
+                                                <!--OPTIONAL INPUTS-->
                                                 @if (Model.Columns[i].LowerLimit != null && Model.Columns[i].UpperLimit != null)
                                                 {
                                                     <div class="col-sm mb-1">
@@ -103,7 +103,7 @@
                                                 }
                                             </div>
                                         </div>
-
+                                        <!--Order & Delete Button-->
                                         <div class="col-md-7 mb-1">
                                             <label asp-for="@(Model.Columns[i].Order)" class="form-label"></label>
                                             <div class="d-flex">
@@ -132,7 +132,7 @@
                         }
                     }
                 }
-
+               
                 <!--GAP BETWEEN ROWS ANG ADDING ROW SECTION-->
                 <div class="mb-5"> </div>
 
@@ -157,15 +157,14 @@
                                                 asp-items="Html.GetEnumSelectList<ColumnType>()">
                                         </select>
                                     </div>
-
                                 </div>
                             </div>
 
                             <div class="col-lg-5 col-md-12 ">
                                 <div class="row">
-                                    <div class="col-md-5 ">
-                                        <div class="row">
-                                            <!--HIDDEN INPUTS-->
+                                    <div class="col-md-5">
+                                        <!--HIDDEN INPUTS-->
+                                        <div class="row" style="display: none">
                                             <div class="col-sm mb-1">
                                                 <label asp-for="@(Model.AddColumnLowerLimit)" class="form-label">From</label>
                                                 <input asp-for="@(Model.AddColumnLowerLimit)" type="number" class="form-control">

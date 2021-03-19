@@ -1,11 +1,12 @@
-﻿<tr>
-    <th><span id="row-number"></span></th>
-    <td><span id="date-time"></span></td>
-    <td><span id="badge" class="badge bg-secondary">Processing</span></td>
+﻿@model PartialTableRowViewModel
+<tr id="new-row">
+    <th>@Model.RowNumber</th>
+    <td>@Model.CreationDate.ToString("yyyy-MM-dd")</td>
+    <td><span class="badge bg-secondary">Processing</span></td>
     <td class="p-1">
         <ul>
             <li class="d-inline">
-                <a id="download-csv-button" class="btn btn-link no-underline disabled" href="#" >Download</a>
+                <a class="btn btn-link no-underline disabled" href="#" >Download</a>
             </li>
         </ul>
     </td>

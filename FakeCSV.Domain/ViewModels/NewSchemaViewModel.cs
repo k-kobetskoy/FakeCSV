@@ -27,6 +27,7 @@ namespace FakeCSV.Domain.ViewModels
         [EnumDataType(typeof(QuotationMark))]
         public QuotationMark Quotation { get; set; }
         
+        #region AddingColumns
         [Display(Name = "Column name")]
         public string AddColumnName { get; set; }
         [Display(Name = "Column type")]
@@ -37,6 +38,7 @@ namespace FakeCSV.Domain.ViewModels
         public int AddColumnLowerLimit { get; set; }
         [Display(Name = "Upper limit")]
         public int AddColumnUpperLimit { get; set; }
+        #endregion
 
         public List<ColumnViewModel> Columns { get; set; }
 

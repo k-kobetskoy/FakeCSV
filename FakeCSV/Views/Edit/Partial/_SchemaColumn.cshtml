@@ -1,0 +1,67 @@
+﻿@* <div class="row mb-3">
+    <div class="col-lg-7 col-md-12">
+        <div class="row ">
+            <!--Column Name-->
+            <div class="col-md-7 mb-1">
+                <label asp-for="@(Model.Columns[i].ColumnName)" class="form-label"></label>
+                <input type="text" class="form-control" asp-for="@(Model.Columns[i].ColumnName)">
+                <span class="text-danger" asp-validation-for="@(Model.Columns[i].ColumnName)"></span>
+            </div>
+            <!--Column Type-->
+            <div class="col-md-5 mb-1">
+                <label class="form-label" asp-for="@(Model.Columns[i].Type)"></label>
+                <select class="form-select" asp-for="@(Model.Columns[i].Type)"
+                        asp-items="Html.GetEnumSelectList<ColumnType>()">
+                </select>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-lg-5 col-md-12 ">
+        <div class="row">
+            <div class="col-md-5 ">
+                <div class="row">
+                    <!--OPTIONAL INPUTS-->
+                    @if (Model.Columns[i].LowerLimit != null && Model.Columns[i].UpperLimit != null)
+                    {
+                        <div class="col-sm mb-1">
+                            <label asp-for="@(Model.Columns[i].LowerLimit)" class="form-label">From</label>
+                            <input asp-for="@(Model.Columns[i].LowerLimit)" type="number" class="form-control">
+                            <span asp-validation-for="@(Model.Columns[i].LowerLimit)" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm mb-1">
+                            <label asp-for="@(Model.Columns[i].UpperLimit)" class="form-label">To</label>
+                            <input asp-for="@(Model.Columns[i].UpperLimit)" type="number" class="form-control">
+                            <span asp-validation-for="@(Model.Columns[i].UpperLimit)" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <!--Order & Delete Button-->
+            <div class="col-md-7 mb-1">
+                <label asp-for="@(Model.Columns[i].Order)" class="form-label"></label>
+                <div class="d-flex">
+
+                    <input asp-for="@(Model.Columns[i].Order)" class="form-control" type="number">
+
+                    <!--++++++++++++++++DELETE BUTTON++++++++++++++++-->
+                    <input type="submit"
+                           formmethod="post"
+                           name="Delete"
+                           value="Delete"
+                           asp-action="DeleteColumn"
+                           asp-controller="Home"
+                           asp-route-deleteid="@(i)"
+                           class="btn btn-link no-underline text-danger">
+                </div>
+                <span asp-validation-for="@(Model.Columns[i].Order)" class="text-danger"></span>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="d-lg-none mb-5"> </div>
+    *@
