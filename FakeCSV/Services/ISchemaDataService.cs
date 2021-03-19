@@ -13,6 +13,7 @@ namespace FakeCSV.Services
         IEnumerable<Schema> GetSchemas();
         void UpdateSchema(Schema newSchema);
         IEnumerable<DataSet> GetDataSets(int id);
-        Task GenerateData(int schemaId, int rows);
+        DataSet GetDatasetById(int id);
+        Task<int> GenerateData(int schemaId, int rows);
     }
 }

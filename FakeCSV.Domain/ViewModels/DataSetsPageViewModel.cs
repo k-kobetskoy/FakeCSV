@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using FakeCSV.Data;
 
 namespace FakeCSV.Domain.ViewModels
@@ -13,6 +14,7 @@ namespace FakeCSV.Domain.ViewModels
         
         [Required][Range(1, 10000, ErrorMessage = "Set value beetwen 1 and 10000")]
         public int RowsNumber { get; set; }
+        public int DataSetQuantity { get; set; }
 
     }
 }

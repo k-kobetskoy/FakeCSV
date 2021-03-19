@@ -79,9 +79,22 @@ namespace FakeCSV.Services
             return schema.DataSets;
         }
 
-
-        public async Task GenerateData(int schemaId, int rows)
+        public int AddDataSet(DataSet dataSet)
         {
+            dbContext.Add(dataSet);
+            dbContext.SaveChanges();
+            return dataSet.Id;
+        }
+
+        public DataSet GetDatasetById(int id)
+        {
+            var dataSet = dbContext.DataSets.Find(id);
+            return dataSet;
+        }
+
+        public async Task<int> GenerateData(int schemaId, int rows)
+        {
+
             var path = appEnvironment.WebRootPath + "/Files/";
             var fileName = $"{DateTime.Now:dd-MM-yy-hh-mm-ss}-{schemaId}-{rows:00000}.csv";
 
@@ -108,10 +121,6 @@ namespace FakeCSV.Services
             var types = columns.Select(column => column.Type);
 
 
-
-
-
-
             await using (var fileStream = new FileStream(path + fileName, FileMode.CreateNew))
             {
                 await using (var writer = new StreamWriter(fileStream))
@@ -129,10 +138,18 @@ namespace FakeCSV.Services
                         await writer.WriteLineAsync(csvString);
                     }
                 }
-
-
             }
 
+            DataSet dataSet = new()
+            {
+                CreationTime = DateTime.Now,
+                Name = fileName,
+                Schema = schema,
+                RowsNumber = rows,
+            };
+
+
+            return AddDataSet(dataSet);
         }
 
         private List<List<string>> GetData(List<Column> columns, int rows, string quotation)

@@ -5,21 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Home\Edit.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Home\Data.cshtml" />
-    <None Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

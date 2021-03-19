@@ -22,7 +22,7 @@
 
                     <!--NEW SCHEMA BUTTON-->
                     <div class="col mb-4 ">
-                        <a asp-controller="Home" asp-action="Edit" class="btn btn-success px-4 float-end">New schema</a>
+                        <a asp-controller="Edit" asp-action="Index" class="btn btn-success px-4 float-end">New schema</a>
                     </div>
                 </div>
 
@@ -50,8 +50,8 @@
                                 <tr>
                                     <th>@(i++)</th>
                                     <td class="p-1"><a class="btn btn-link no-underline"
-                                                       asp-controller="Home"
-                                                       asp-action="Data"
+                                                       asp-controller="Data"
+                                                       asp-action="Index"
                                                        asp-route-id="@schema.Id">
                                         @schema.Name
                                     </a></td>
@@ -61,7 +61,7 @@
                                         <ul>
                                             <li class="d-inline">
                                                 <a class="btn btn-link no-underline"
-                                                   asp-controller="Home" asp-action="Edit"
+                                                   asp-controller="Edit" asp-action="Index"
                                                    asp-route-id="@schema.Id">Edit scheme</a>
                                             </li>
                                             <li class="d-inline">

@@ -1,0 +1,140 @@
+﻿@using FakeCSV.Controllers
+@model DataSetsPageViewModel
+@{
+    Layout = "_Layout";
+}
+
+
+<header>
+    <partial name="Partial/_NavBar" />
+</header>
+
+<section>
+    <div class="container">
+
+        <!--WRAPPING ROW-->
+        <div class="row">
+            <div class="col-lg-9 col-md-12">
+                <div class="row d-flex justify-content-md-between">
+
+                    <!--HEADER-->
+                    <div class="col">
+                        <h2 class="fs-4 mb-4">@ViewBag.Title</h2>
+                    </div>
+
+                    <form>
+                        <div class="col mb-4 d-flex justify-content-end align-items-center">
+                            <div class="d-flex align-items-center me-3">
+                                <label asp-for="RowsNumber" class="me-3">Rows:</label>
+                                <input id="rows-number" asp-for="RowsNumber" type="number" class="form-control rows-number">
+                                <input id="schema-id" asp-for="SchemaId" type="hidden" class="form-control">
+                                <span asp-validation-for="RowsNumber"></span>
+                            </div>
+                            <a id="generate-data-button" class="btn btn-success px-4 float-end">Generate data</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!--TABLE-->
+
+                <table id="data-table" class="table table-bordered align-middle">
+                    <colgroup>
+                        <col style="width:10%">
+                        <col span="3" style="width:30%">
+                    </colgroup>
+
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Crated</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table-body">
+                        @if (Model.DataSets != null && Model.DataSets.Any())
+                        {
+                            int i = 1;
+                            foreach (var dataSet in Model.DataSets)
+                            {
+                                <tr>
+                                    <th>@(i++)</th>
+                                    <td>@(dataSet.CreationTime.ToString("yyyy-MM-dd"))</td>
+                                    <td><span class="badge bg-success">Ready</span></td>
+                                    <td class="p-1">
+                                        <ul>
+                                            <li class="d-inline">
+                                                <a class="btn btn-link no-underline"
+                                                   asp-controller="Data"
+                                                   asp-action="DownloadCsv"
+                                                   asp-route-name="@(dataSet.Name)">
+                                                    Download
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+
+
+                        }
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script src="~/axios/axios.min.js"></script>
+    <script src="~/js/site.js"></script>
+
+    <script type="text/javascript">
+        const table = document.querySelector('#data-table');
+        const resultBlock = document.querySelector('#data-table-body');
+        const generateDataButton = document.querySelector('#generate-data-button');
+        const rowsNumberInput = document.querySelector('#rows-number');
+        const schemaId = document.querySelector('#schema-id');
+        const  rowId ='#row-number';
+        const rowDatetime = '#date-time';
+        const stateBadgeName = '#badge';
+        const downloadLinkId = '#download-csv-button';
+        const downloadCsvUrl = '@Url.Action("DownloadCsv", "Data")';
+        var today = new Date();
+        var currentDay = today.getDate();
+        if (currentDay < 10) { currentDay = `0${currentDay}`; }
+        var currentMonth = today.getMonth()+1;
+        if (currentMonth < 10) {currentMonth=`0${currentMonth}`}
+        var date = today.getFullYear() + '-' + currentMonth + '-' + currentDay;
+        const appendRowActionUrl = '@Url.Action("AppendNewRow", "Data")';
+        const generateCsvActionUrl = '@Url.Action("GenerateCsv", "Data")';
+
+        generateDataButton.addEventListener("click", () => {
+                getRow(appendRowActionUrl)
+                    .then((data) => { appendRow(data, resultBlock) })
+                    .then(() => {
+                        editRowData(table.rows.length - 1, date, rowId, rowDatetime);
+                    })
+                    .then(() => {
+                        generateData(rowsNumberInput.value, schemaId.value, generateCsvActionUrl, succseesCallback);
+                    })
+                    // Then not working :(
+                    //.then((data) => {
+                    //    setReadyState(data, downloadLinkId, downloadCsvUrl);
+                    //})
+                .catch(error => alert(error.message));
+        });
+
+        function succseesCallback(data) {
+           setReadyState(data.value.name, downloadLinkId, downloadCsvUrl, stateBadgeName);
+        };
+
+    </script>
+}
