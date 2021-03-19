@@ -48,12 +48,12 @@ namespace FakeCSV.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GenerateCsv(int id, int rows)
+        public async Task<IActionResult> GenerateCsv(int id, int rows, [FromServices] IGenerateCsvService csvService)
         {
             var schemaId = id;
             var rowsNumber = rows;
 
-            var dataSetId = await dataService.GenerateData(schemaId, rowsNumber);
+            var dataSetId = await csvService.GenerateData(schemaId, rowsNumber);
 
             var dataSet = dataService.GetDatasetById(dataSetId);
 
