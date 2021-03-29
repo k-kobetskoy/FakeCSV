@@ -55,9 +55,8 @@ namespace FakeCSV.Services
             return schema;
         }
 
-        public void DeleteSchema(int id)
+        public void DeleteSchema(Schema schema)
         {
-            var schema = GetSchemaById(id);
             dbContext.Schemas.Remove(schema);
             dbContext.SaveChanges();
         }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using FakeCSV.Domain.Models;
 using FakeCSV.Domain.ViewModels;
 using FakeCSV.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json.Linq;
 
 namespace FakeCSV.Controllers
 {
@@ -19,30 +22,35 @@ namespace FakeCSV.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int? id)
+        public IActionResult Index(int? id, bool? deleteColumnError = false)
         {
+            if (deleteColumnError.GetValueOrDefault())
+                ViewBag.ErrorMessage = "Delete failed. Try again.";
+
             if (id is null)
             {
                 ViewBag.Title = "New Schema";
-                return View(new NewSchemaViewModel { AddColumnOrder = 1 });
+                return View(new NewSchemaViewModel());
             }
 
             var schema = dataService.GetSchemaById((int)id);
             var model = new NewSchemaViewModel
             {
+                Id = schema.Id,
                 Name = schema.Name,
                 Separator = schema.Separator,
                 Quotation = schema.Quotation,
-                Columns = schema.Columns.Select(c => new ColumnViewModel
-                {
-                    ColumnName = c.Name,
-                    LowerLimit = c.LowerLimit,
-                    UpperLimit = c.UpperLimit,
-                    Order = c.Order,
-                    Type = c.Type,
-                }).ToList(),
-                AddColumnOrder = schema.Columns.Max(c => c.Order) + 1,
-
+                Columns = schema.Columns
+                    .Select(c => new ColumnViewModel
+                    {
+                        ColumnName = c.Name,
+                        LowerLimit = c.LowerLimit,
+                        UpperLimit = c.UpperLimit,
+                        Order = c.Order,
+                        Type = c.Type,
+                    })
+                    .OrderBy(c => c.Order)
+                    .ToList(),
             };
 
             ViewBag.Title = $"Edit Schema {model.Name}";
@@ -50,67 +58,59 @@ namespace FakeCSV.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddColumn(NewSchemaViewModel model)
+        public IActionResult AddColumn(NewSchemaViewModel schemaModel)
         {
-
-            model.Columns ??= new List<ColumnViewModel>();
-
-            if (model.AddColumnType == ColumnType.Text || model.AddColumnType == ColumnType.Integer)
-            {
-                model.Columns.Add(new()
-                {
-                    ColumnName = model.AddColumnName,
-                    Type = model.AddColumnType,
-                    Order = model.AddColumnOrder,
-                    LowerLimit = model.AddColumnLowerLimit,
-                    UpperLimit = model.AddColumnUpperLimit,
-                });
-            }
-            else
-            {
-                model.Columns.Add(new()
-                {
-                    ColumnName = model.AddColumnName,
-                    Type = model.AddColumnType,
-                    Order = model.AddColumnOrder,
-                });
-            }
-
-
-
-            model.AddColumnUpperLimit = 0;
-            model.AddColumnName = null;
-            model.AddColumnOrder = model.Columns.Max(c => c.Order) == 0
-                ? 1
-                : model.Columns.Max(c => c.Order) + 1;
-            model.AddColumnType = 0;
-            model.AddColumnLowerLimit = 0;
-
             ModelState.Clear();
-            return View("Index", model);
-        }
+            schemaModel.Columns.RemoveAll(c => c.IsDeleted == "deleted");
+            var columnsList = schemaModel.Columns;
+            var newColumn = new ColumnViewModel
+            {
+                ColumnName = schemaModel.AppendColumnName,
+                Type = schemaModel.AppendColumnType,
+                Order = schemaModel.AppendColumnOrder,
+                LowerLimit = schemaModel.AppendColumnLowerLimit,
+                UpperLimit = schemaModel.AppendColumnUpperLimit,
+            };
 
+            if (newColumn.Order <= columnsList.Count)
+            {
+                newColumn.Order = columnsList.Count + 1;
+                var maxOrder = columnsList.Max(c => c.Order);
+                if (newColumn.Order <= maxOrder)
+                    newColumn.Order = maxOrder + 1;
+            }
+
+            columnsList.Add(newColumn);
+            schemaModel.AppendColumnName = null;
+            schemaModel.AppendColumnType = ColumnType.FullName;
+            schemaModel.AppendColumnOrder = 1;
+            schemaModel.AppendColumnUpperLimit = null;
+            schemaModel.AppendColumnLowerLimit = null;
+
+            return PartialView("Partial/_SchemaColumn", schemaModel);
+        }
 
         [HttpPost]
         public IActionResult Submit(NewSchemaViewModel model)
         {
+
             if (!ModelState.IsValid)
                 return View("Index", model);
 
-            if (model.Columns is null || !model.Columns.Any())
+            if (!model.Columns.Any())
             {
                 ModelState.AddModelError("", "Schema must contain at least one column");
                 return View("Index", model);
             }
 
-            Schema schema = new Schema
+            var schema = new Schema
             {
                 Name = model.Name,
                 Quotation = model.Quotation,
                 Separator = model.Separator,
                 CreationTime = DateTime.Now,
                 UpdateTime = DateTime.Now,
-                Columns = model.Columns.Select(c => new Column
+                Columns = model.Columns.Where(c => c.IsDeleted != "deleted").Select(c => new Column
                 {
                     Name = c.ColumnName,
                     Type = c.Type,
@@ -120,11 +120,10 @@ namespace FakeCSV.Controllers
                 })
                     .ToList()
             };
-            var values = Request.RouteValues;
-            var id = values["id"];
-            if (id != null)
+
+            if (model.Id > 0)
             {
-                schema.Id = int.Parse(id.ToString());
+                schema.Id = model.Id;
                 dataService.UpdateSchema(schema);
                 return RedirectToAction("Index", "Home");
             }
@@ -134,21 +133,17 @@ namespace FakeCSV.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteColumn(NewSchemaViewModel model, int deleteid)
+        [Route("Edit/DeleteColumn/{columnId:int}")]
+        public IActionResult DeleteColumn(int columnId, NewSchemaViewModel model)
         {
-            model.Columns.RemoveAt(deleteid);
+            var column = model.Columns.FirstOrDefault(c => c.Id == columnId);
 
-            model.AddColumnUpperLimit = 0;
-            model.AddColumnName = null;
-            model.AddColumnOrder = model.Columns.Max(c => c.Order) == 0
-                    ? 1
-                    : model.Columns.Max(c => c.Order) + 1;
-            model.AddColumnType = 0;
-            model.AddColumnLowerLimit = 0;
+            if (column == null)
+                return RedirectToAction("Index", new { id = model.Id, deleteColumnError = true });
 
-            ModelState.Clear();
-            return View("Index", model);
+            model.Columns.Remove(column);
+
+            return PartialView("Partial/_SchemaColumn", model);
         }
-
     }
 }

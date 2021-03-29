@@ -1,0 +1,59 @@
+﻿@model FakeCSV.Domain.ViewModels.ColumnViewModel
+
+<div class="row mb-3 full-column">
+    <div class="col-lg-7 col-md-12">
+        <div class="row ">
+            <!--Column Name-->
+            <div class="col-md-7 mb-1">
+                <label asp-for="ColumnName" class="form-label"></label>
+                <input class="is-deleted" type="hidden" asp-for="IsDeleted"/>
+                <input type="text" class="form-control" asp-for="ColumnName">
+                <span class="text-danger" asp-validation-for="ColumnName"></span>
+            </div>
+            <!--Column Type-->
+            <div class="col-md-5 mb-1">
+                <label class="form-label" asp-for="Type"></label>
+                <select class="form-select" asp-for="Type"
+                        asp-items="Html.GetEnumSelectList<ColumnType>()">
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5 col-md-12 ">
+        <div class="row">
+            <div class="col-md-5 ">
+                <div class="row">
+                    <!--OPTIONAL INPUTS-->
+                    @if (Model.LowerLimit != null && Model.UpperLimit != null)
+                    {
+                        <div class="col-sm mb-1">
+                            <label asp-for="LowerLimit" class="form-label">From</label>
+                            <input asp-for="LowerLimit" type="number" class="form-control">
+                            <span asp-validation-for="LowerLimit" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm mb-1">
+                            <label asp-for="UpperLimit" class="form-label">To</label>
+                            <input asp-for="UpperLimit" type="number" class="form-control">
+                            <span asp-validation-for="UpperLimit" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <!--Order & Delete Button-->
+            <div class="col-md-7 mb-1">
+                <label asp-for="Order" class="form-label"></label>
+                <div class="d-flex">
+                    <input asp-for="Order" class="form-control" type="number">
+                    <!--++++++++++++++++DELETE BUTTON++++++++++++++++-->
+                    <a class="btn btn-link no-underline text-danger delete-button">Delete</a>
+                </div>
+                <span asp-validation-for="Order" class="text-danger"></span>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="d-lg-none mb-5"> </div>

@@ -25,8 +25,11 @@ namespace FakeCSV.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(bool? saveDeleteError = false)
         {
+            if (saveDeleteError.GetValueOrDefault())
+                ViewBag.ErrorMessage = "Delete failed. Try again.";
+
             var schemas = dataService.GetSchemas();
             if (schemas is null)
                 return View(new List<SchemaViewModel>());
@@ -44,9 +47,43 @@ namespace FakeCSV.Controllers
             return View(model);
         }
 
-        public IActionResult DeleteScheme()
+        [HttpGet]
+        public IActionResult Delete(int? id)
         {
-            throw new NotImplementedException();
+            if (id is null)
+                return BadRequest();
+
+            var schema = dataService.GetSchemaById((int)id);
+
+
+            if (schema is null)
+                return NotFound();
+
+
+            return View(new SchemaViewModel
+            {
+                Id = schema.Id,
+                Name = schema.Name,
+                CreationTime = (DateTime)schema.CreationTime,
+                UpdateTime = (DateTime)schema.UpdateTime,
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var schema = dataService.GetSchemaById(id);
+                dataService.DeleteSchema(schema);
+            }
+            catch (Exception e)
+            {
+                logger.LogError("Error while deleting schema-{0}: {1}", id, e);
+                return RedirectToAction("Index", new { saveDeleteError = true });
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

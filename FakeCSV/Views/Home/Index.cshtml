@@ -25,7 +25,7 @@
                         <a asp-controller="Edit" asp-action="Index" class="btn btn-success px-4 float-end">New schema</a>
                     </div>
                 </div>
-
+                <span class="text-danger">@ViewBag.ErrorMessage</span>
                 <!--TABLE-->
                 @if (Model.Any())
                 {
@@ -44,17 +44,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @{int i= 1;}
+                            @{int i = 1;}
                             @foreach (var schema in Model)
                             {
                                 <tr>
                                     <th>@(i++)</th>
-                                    <td class="p-1"><a class="btn btn-link no-underline"
-                                                       asp-controller="Data"
-                                                       asp-action="Index"
-                                                       asp-route-id="@schema.Id">
-                                        @schema.Name
-                                    </a></td>
+                                    <td class="p-1">
+                                        <a class="btn btn-link no-underline"
+                                           asp-controller="Data"
+                                           asp-action="Index"
+                                           asp-route-id="@schema.Id">
+                                            @schema.Name
+                                        </a>
+                                    </td>
 
                                     <td>@schema.UpdateTime.ToString("yyyy-MM-dd")</td>
                                     <td class="p-1">
@@ -64,10 +66,16 @@
                                                    asp-controller="Edit" asp-action="Index"
                                                    asp-route-id="@schema.Id">Edit scheme</a>
                                             </li>
+
+                                            @*Delete button*@
+
                                             <li class="d-inline">
-                                                <a class="btn btn-link no-underline text-danger"
+                                                <a class="btn btn-link no-underline text-danger delete-button"
                                                    asp-controller="Home"
-                                                   asp-action="DeleteScheme">Delete</a>
+                                                   asp-action="Delete"
+                                                   asp-route-id="@schema.Id">
+                                                    Delete
+                                                </a>
                                             </li>
                                         </ul>
                                     </td>
@@ -93,3 +101,27 @@
         </div>
     </div>
 </section>
+
+@section Scripts
+{
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    
+    
+    <script type="text/javascript">
+        let deleteBtns = document.querySelectorAll('.delete-button');
+        var titleDelete = 'Are you sure you want to delete this?';
+
+        for (var i = 0; i < deleteBtns.length; i++) {
+            let actionUrl = deleteBtns[i].href;
+            deleteBtns[i].addEventListener('click', function(e) {
+                e.preventDefault();
+                deletePopup(actionUrl, titleDelete);
+            });
+        }
+
+    </script>
+    
+}

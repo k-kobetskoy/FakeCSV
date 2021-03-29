@@ -1,0 +1,45 @@
+﻿@model SchemaViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+    <div>
+        <h4>Schema</h4>
+       
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.HiddenFor(model => model.Id)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.HiddenFor(model => model.Id)
+                </dd>
+
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CreationTime)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CreationTime)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.UpdateTime)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.UpdateTime)
+                </dd>
+            </dl>
+
+        <form class="float-end" method="post" asp-action="Delete">
+         
+                <a class="btn btn-secondary" asp-controller="Home" asp-action="Index" asp-route-id="@Model.Id">Back to list</a>
+                <input type="submit" class="btn btn-danger" value="Delete" />
+          
+        </form>
+    </div>
+

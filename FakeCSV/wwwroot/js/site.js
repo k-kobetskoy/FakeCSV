@@ -1,5 +1,25 @@
-﻿function showResponce(data) {
-    console.log(data);
+﻿function deletePopup(url, title) {
+    $.ajax({
+        method: 'GET',
+        url: url,
+        success: function(res) {
+            $('#form-modal .modal-body').html(res);
+            $('#form-modal .modal-title').html(title);
+            $('#form-modal').modal('show');
+        }
+    });
+}
+
+function getColumns(form, url) {
+    var promise = $.ajax({
+        url: url,
+        data: new FormData(form),
+        contentType: false,
+        processData: false,
+        method: 'POST',
+        dataType: 'html'
+    });
+    return promise;
 }
 
 function appendRow(data, resultBlock, buttonToDisable) {
