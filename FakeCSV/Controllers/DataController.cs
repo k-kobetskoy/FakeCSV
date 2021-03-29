@@ -2,23 +2,36 @@
 using FakeCSV.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace FakeCSV.Controllers
 {
     public class DataController : Controller
     {
         private readonly ISchemaDataService dataService;
+        private readonly IWebHostEnvironment appEnvironment;
+        private readonly ILogger<DataController> logger;
 
-        public DataController(ISchemaDataService dataService)
+        public DataController(
+            ISchemaDataService dataService,
+            IWebHostEnvironment appEnvironment,
+            ILogger<DataController> logger)
         {
             this.dataService = dataService;
+            this.appEnvironment = appEnvironment;
+            this.logger = logger;
         }
 
         [HttpGet]
-        public IActionResult Index(int id)
+        public IActionResult Index(int id, bool? generationError = false)
         {
+            if (generationError.GetValueOrDefault())
+                ViewBag.ErrorMessage = "Generation CSV Failed. Try again.";
+
             var schema = dataService.GetSchemaById(id);
             ViewBag.Title = $"Data Sets for {schema.Name}";
             var model = new DataSetsPageViewModel
@@ -51,8 +64,19 @@ namespace FakeCSV.Controllers
         {
             var schemaId = id;
             var rowsNumber = rows;
+            int dataSetId;
 
-            var dataSetId = await csvService.GenerateData(schemaId, rowsNumber);
+            try
+            {
+                dataSetId = await csvService.GenerateData(schemaId, rowsNumber);
+            }
+            catch (Exception e)
+            {
+                logger.LogError("Error while generating csv file {0}", e);
+                return RedirectToAction("Index", new {id = id, generationError = true});
+            }
+
+
             var dataSet = dataService.GetDatasetById(dataSetId);
 
             var result = dataSet.Name;
@@ -60,9 +84,12 @@ namespace FakeCSV.Controllers
         }
 
 
-        public IActionResult DownloadCsv(string name)
+        public PhysicalFileResult DownloadCsv(string name)
         {
-            throw new NotImplementedException();
+            string path = Path.Combine(appEnvironment.WebRootPath, $@"Files\{name}");
+            string type = "application/csv";
+            string fileName = name;
+            return PhysicalFile(path, type, fileName);
         }
 
 
@@ -73,7 +100,7 @@ namespace FakeCSV.Controllers
             {
                 RowNumber = number,
                 CreationDate = DateTime.Now,
-                
+
             };
             return PartialView("Partial/_DataTableRow", model);
         }

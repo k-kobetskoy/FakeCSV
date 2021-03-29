@@ -20,6 +20,7 @@
                     <div class="col">
                         <h2 class="fs-4 mb-4">@ViewBag.Title</h2>
                     </div>
+                    <span class="text-danger">@ViewBag.ErrorMessage</span>
 
                     <form>
                         <div class="col mb-4 d-flex justify-content-end align-items-center">
@@ -85,9 +86,7 @@
 @section Scripts
 {
     <script src="~/lib/jquery/jquery.js"></script>
-    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
-
-    <script src="~/axios/axios.min.js"></script>
+   
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script type="text/javascript" asp-append-version="true">

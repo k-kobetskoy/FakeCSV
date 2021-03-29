@@ -61,7 +61,7 @@ function setReadyState(name, actionUrl, buttonToEnable, rowId) {
     const row = document.querySelector(rowId);
     const link = row.querySelector('a');
 
-    link.href = actionUrl + '/name=' + name;
+    link.href = actionUrl + '?name=' + name;
     if (link.classList.contains('disabled')) {
         link.classList.remove('disabled');
     }

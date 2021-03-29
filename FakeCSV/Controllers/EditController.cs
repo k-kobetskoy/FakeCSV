@@ -132,18 +132,5 @@ namespace FakeCSV.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
-        [Route("Edit/DeleteColumn/{columnId:int}")]
-        public IActionResult DeleteColumn(int columnId, NewSchemaViewModel model)
-        {
-            var column = model.Columns.FirstOrDefault(c => c.Id == columnId);
-
-            if (column == null)
-                return RedirectToAction("Index", new { id = model.Id, deleteColumnError = true });
-
-            model.Columns.Remove(column);
-
-            return PartialView("Partial/_SchemaColumn", model);
-        }
     }
 }
