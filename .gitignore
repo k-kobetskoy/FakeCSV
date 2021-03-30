@@ -340,3 +340,6 @@ ASALocalRun/
 healthchecksdb
 **/wwwroot/lib/bootstrap/css
 /FakeCSV/wwwroot/Files
+/FakeCSV/Properties/ServiceDependencies/fakecsv - Web Deploy
+/FakeCSV/Properties/serviceDependencies.fakecsv - Web Deploy.json
+/FakeCSV/Properties/serviceDependencies.json

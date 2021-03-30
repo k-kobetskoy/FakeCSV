@@ -33,7 +33,9 @@ namespace FakeCSV.Data
         public void Initialize()
         {
             var database = context.Database;
-
+            
+            database.EnsureCreated();
+            
             logger.LogInformation("begin db initialization");
 
             if (database.GetPendingMigrations().Any())

@@ -25,7 +25,7 @@ namespace FakeCSV
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
           
             services.AddDbContext<FakeCsvDbContext>(opt =>
-                opt.UseSqlServer(configuration.GetConnectionString("Default")));
+                opt.UseSqlServer(configuration.GetConnectionString("FakeCsvDbContext")));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<FakeCsvDbContext>();
