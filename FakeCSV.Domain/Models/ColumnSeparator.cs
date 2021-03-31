@@ -8,7 +8,5 @@ namespace FakeCSV.Domain.Models
         Comma,
         [Display(Name = "Semicolon (;)")]
         Semicolon,
-        Tabulation,
-        Space
     }
 }

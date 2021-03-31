@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using FakeCSV.Domain.Models;
 using FakeCSV.Domain.ViewModels;
 using FakeCSV.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json.Linq;
 
 namespace FakeCSV.Controllers
 {
+    [Authorize]
     public class EditController : Controller
     {
         private readonly ISchemaDataService dataService;

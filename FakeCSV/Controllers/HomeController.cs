@@ -96,7 +96,7 @@ namespace FakeCSV.Controllers
         private void DeleteCsvFiles(int id)
         {
 
-            var path = Path.Combine(appEnvironment.WebRootPath + "/Files/") ;
+            var path = appEnvironment.ContentRootPath + @"\files\";
 
 
             var dir = new DirectoryInfo(path);
@@ -104,11 +104,16 @@ namespace FakeCSV.Controllers
             if (!dir.Exists)
                 throw new DirectoryNotFoundException($"The directory {path} was not found");
 
-            var filesToDelete = dir.GetFiles().Where(f=>f.Name.Contains($"-sid{id}-"));
+            var filesToDelete = dir.GetFiles().Where(f => f.Name.Contains($"-sid{id}-")).ToList();
 
-            foreach (var file in filesToDelete)
-                file.Delete();
-            
+            if (filesToDelete.Any())
+            {
+                foreach (var file in filesToDelete)
+                    file.Delete();
+            }
+
+
+
         }
     }
 }

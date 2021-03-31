@@ -39,13 +39,13 @@ namespace FakeCSV
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataInitializer dbInitializer)
         {
-            dbInitializer.Initialize();
+          //  dbInitializer.Initialize();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            ////if (env.IsDevelopment())
+            ////{
+            ////    app.UseDeveloperExceptionPage();
+            ////}
+            //app.UseDeveloperExceptionPage();
 
             app.UseStaticFiles();
             app.UseRouting();

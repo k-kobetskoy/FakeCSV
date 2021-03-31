@@ -5,11 +5,13 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace FakeCSV.Controllers
 {
+    [Authorize]
     public class DataController : Controller
     {
         private readonly ISchemaDataService dataService;
@@ -86,7 +88,7 @@ namespace FakeCSV.Controllers
 
         public PhysicalFileResult DownloadCsv(string name)
         {
-            string path = Path.Combine(appEnvironment.WebRootPath, $@"Files\{name}");
+            string path = appEnvironment.ContentRootPath + $@"\files\{name}";
             string type = "application/csv";
             string fileName = name;
             return PhysicalFile(path, type, fileName);

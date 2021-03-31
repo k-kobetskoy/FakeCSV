@@ -30,7 +30,13 @@ namespace FakeCSV.Services
         public async Task<int> GenerateData(int schemaId, int rows)
         {
 
-            var path = appEnvironment.WebRootPath + "/Files/";
+            var path = appEnvironment.ContentRootPath + @"\files\";
+
+            var dir = new DirectoryInfo(path);
+
+            if (!dir.Exists)
+                dir.Create();
+
 
             var fileName = $"{Id++}-{DateTime.Now:dd-MM-yy-hh-mm-ss}-sid{schemaId}-{rows:00000}.csv";
 
@@ -40,8 +46,6 @@ namespace FakeCSV.Services
             {
                 ColumnSeparator.Comma => ",",
                 ColumnSeparator.Semicolon => ";",
-                ColumnSeparator.Tabulation => "\t",
-                ColumnSeparator.Space => " ",
                 _ => ","
             };
 
@@ -70,8 +74,6 @@ namespace FakeCSV.Services
                         string csvString = string.Empty;
                         foreach (var column in columnsData)
                             csvString = csvString + column[i] + separator;
-
-
                         await writer.WriteLineAsync(csvString);
                     }
                 }

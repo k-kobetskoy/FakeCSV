@@ -33,17 +33,18 @@ namespace FakeCSV.Data
         public void Initialize()
         {
             var database = context.Database;
-            
+
+            database.EnsureDeleted();
             database.EnsureCreated();
             
             logger.LogInformation("begin db initialization");
 
-            if (database.GetPendingMigrations().Any())
-            {
-                logger.LogInformation("there are pending migrations");
-                database.Migrate();
-                logger.LogInformation("all migrations complete");
-            }
+            //if (database.GetPendingMigrations().Any())
+            //{
+            //    logger.LogInformation("there are pending migrations");
+            //    database.Migrate();
+            //    logger.LogInformation("all migrations complete");
+            //}
 
             logger.LogInformation("there are no pending migrations");
 
@@ -83,7 +84,7 @@ namespace FakeCSV.Data
                     logger.LogError("error while adding role {0}:", role);
                     foreach (var error in result.Errors)
                     {
-                        logger.LogError("{0}: {1}",error.Code, error.Description);
+                        logger.LogError("{0}: {1}", error.Code, error.Description);
                     }
                 }
             }
