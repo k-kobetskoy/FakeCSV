@@ -1,0 +1,340 @@
+﻿@using System.Linq
+@using FakeCSV.Domain.Models
+@model NewSchemaViewModel
+@{
+    Layout = "_Layout";
+}
+<header>
+    <partial name="Partial/_NavBar" />
+</header>
+
+<div class="container">
+
+    <!-- HEADER-->
+    <h2 class="fs-4 mb-4">@ViewBag.Title</h2>
+
+    <!--INPUTS WRAPPING ROW-->
+    <div class="row">
+        <div class="col-md-10">
+            <!-- TOP INPUTS-->
+            <form id="main-form">
+                <div class="row d-flex justify-content-between flex-lg-nowrap flex-wrap">
+                    <div class="col-xl-5 col-lg-7 col-md-12">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div>
+                            <div class="mb-3">
+                                <label asp-for="Name" class="form-label">Name</label>
+                                <input asp-for="Id" type="hidden" />
+                                <input asp-for="Name" type="text" class="form-control">
+                                <span class="text-danger" asp-validation-for="Name"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Separator" class="form-label"></label>
+                            <select class="form-select"
+                                    asp-for="Separator"
+                                    asp-items="Html.GetEnumSelectList<ColumnSeparator>()">
+                            </select>
+                        </div>
+
+                        <div class="mb-5">
+                            <label asp-for="Quotation" class="form-label"></label>
+                            <select class="form-select"
+                                    asp-for="Quotation" asp-items="Html.GetEnumSelectList<QuotationMark>()">
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <!--+++++++++ SUBMIT BUTTON +++++++++-->
+                    <div class="col mb-5 align-self-end">
+                        <input type="submit"
+                               id="submit-form-button"
+                               asp-controller="Edit"
+                               asp-action="Submit"
+                               formmethod="post"
+                               name="submit"
+                               class="float-end btn btn-primary px-4"
+                               value="Submit">
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <h2 class="fs-4 mb-4">Schema columns</h2>
+                </div>
+
+                <!--===============ROWS SECTION===============-->
+                <div id="columns-container">
+                    <span class="text-danger">@ViewBag.ErrorMessage</span>
+                    @Html.EditorFor(model => model.Columns)
+
+                </div>
+
+
+
+                <!--GAP BETWEEN ROWS ANG ADDING ROW SECTION-->
+                <div class="mb-5"></div>
+
+
+                <!--===============ADDING A NEW ROW===============-->
+
+                <div class="row">
+                    <div class="border rounded py-4 mb-5">
+
+                        <!--NEW ROW INPUTS-->
+                        <div class="row mb-3">
+                            <div class="col-lg-7 col-md-12">
+                                <div class="row ">
+                                    <div class="col-md-7 mb-1">
+                                        <label asp-for="@Model.AppendColumnName" class="form-label">Column name</label>
+                                        <input asp-for="@Model.AppendColumnName" type="text" id="append-column-name" class="form-control">
+                                        <span asp-validation-for="@Model.AppendColumnName" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="col-md-5 mb-1">
+                                        <label asp-for="@Model.AppendColumnType" class="form-label">Column type</label>
+                                        <select asp-for="@Model.AppendColumnType" id="append-column-type" class="form-select"
+                                                asp-items="Html.GetEnumSelectList<ColumnType>()">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5 col-md-12 ">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <!--HIDDEN INPUTS-->
+                                        <div id="hidden-inputs" class="row" style="display: none">
+                                            <div class="col-sm mb-1">
+                                                <label asp-for="@Model.AppendColumnLowerLimit" class="form-label">From</label>
+                                                <input asp-for="@Model.AppendColumnLowerLimit" id="append-column-lowerlimit" type="number">
+                                                <span asp-validation-for="@Model.AppendColumnLowerLimit" class="text-danger"></span>
+                                            </div>
+                                            <div class="col-sm mb-1">
+                                                <label asp-for="@Model.AppendColumnUpperLimit" class="form-label">To</label>
+                                                <input id="append-column-upperlimit" asp-for="@Model.AppendColumnUpperLimit" type="number">
+                                                <span asp-validation-for="@Model.AppendColumnUpperLimit" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7 mb-1">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label asp-for="@Model.AppendColumnOrder" class="form-label">Order</label>
+                                                <input asp-for="@Model.AppendColumnOrder" id="append-column-order" class="form-control" type="number">
+                                                <span asp-validation-for="@Model.AppendColumnOrder" class="text-danger"></span>
+                                            </div>
+                                            <div class="col align-self-end">
+                                                <button class="btn btn-link no-underline text-danger" name="delete" type="submit">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--ADD NEW COLUMN BUTTON-->
+                        <div class="row mb-3">
+                            <div class="col-md-3">
+                                <!--+++++++++ ADD COLUMN BUTTON +++++++++-->
+                                <input type="submit"
+                                       formmethod="post"
+                                       id="append-column-submit"
+                                       value="Add Column"
+                                       asp-controller="Edit"
+                                       asp-action="AddColumn"
+                                       class="btn btn-primary px-4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <!--GAP-->
+        <div class="col-md-2"></div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/lib/jquery/jquery.min.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script type="text/javascript" asp-append-version="true">
+
+        let form = document.querySelector('#main-form');
+        var addColumnBtn = form.querySelector('#append-column-submit');
+        var submitBtn = form.querySelector('#submit-form-button');
+        let type = form.querySelector('#append-column-type');
+
+        let lowerLimit = form.querySelector('#append-column-lowerlimit');
+        let upperLimit = form.querySelector('#append-column-upperlimit');
+        let hiddenInputs = form.querySelector('#hidden-inputs'); // div with Lower limit & upper limit inputs
+        let order = form.querySelector('#append-column-order'); order.value = 1;
+        let name = form.querySelector('#append-column-name');
+        let resultBlock = document.querySelector('#columns-container');
+
+        const actionUrl = '@Url.Action("AddColumn", "Edit")';
+        const submitUrl = '@Url.Action("Submit", "Edit")';
+
+        let limitsInputs = hiddenInputs.querySelectorAll('input'); // inputs for lower limit & upper limit
+        let allValidationMess = form.querySelectorAll('span');
+      
+
+        // clear all validatin messages
+        var removeAllValidationMessages = function () {
+            for (var i = 0; i < allValidationMess.length; i++) {
+                allValidationMess[i].textContent = null;
+            }
+            allValidationMess = form.querySelectorAll('span');
+        }
+
+        // check limit inputs for error
+        var checkLimits = function () {
+            let flag = true;
+            for (var i = 0; i < limitsInputs.length; i++) {
+                if (!limitsInputs[i].value) {
+                    setErrorMessage(limitsInputs[i], 'Required field');
+                    flag = false;
+                }
+            }
+            if (flag == true) {
+                console.log('limit types validation began');
+                lowerLimit = form.querySelector('#append-column-lowerlimit');
+                upperLimit = form.querySelector('#append-column-upperlimit');
+                if (type.value == 6 && lowerLimit.value < 1) {
+                    setErrorMessage(lowerLimit, 'Value cannot be < 1');
+                    console.log('type is text and lowerLimit value < 1 ');
+                }
+                if (upperLimit.value < lowerLimit.value) {
+                    setErrorMessage(upperLimit, 'Cannot be < than lower limit');
+                    console.log('if statement lower limit is bigger than upper');
+                }
+                if (upperLimit.value > 1000000000) {
+                    setErrorMessage(upperLimit, 'Value is greater than 1000000000');
+                }
+            }
+
+        }
+
+
+        var setErrorMessage = function (input, text) {
+            const label = input.closest('div').querySelector('span');
+            //debugger;
+            label.textContent = text;
+        }
+
+        var checkOrder = function () {
+            if (!order.value) {
+                setErrorMessage(order,'Reqired value');
+            }
+            if (order.value < 1) {
+                setErrorMessage(order, 'Order cannot be lower than 1');
+            }
+        }
+
+        var checkName = function () {
+            if (!name.value) {
+                setErrorMessage(name, 'Required value');
+            }
+            if (name.value.length > 50 || name.value.length <= 1) {
+                setErrorMessage(name, 'Name must contain more than 2 and less than 50 symbols');
+            }
+        }
+        var checkValidationErrors = function () {
+            var flag = false;
+            for (var i = 0; i < allValidationMess.length; i++) {
+                if (allValidationMess[i].textContent) {
+                    flag = true;
+                }
+            }
+            return flag;
+        }
+
+        var clearInputs = function() {
+            name.value = null;
+            type.value = 0;
+            if (lowerLimit.value||upperLimit.value) {
+                lowerLimit.value = null;
+                upperLimit.value = null;
+            }
+            order.value = 1;
+            hiddenInputs.style.cssText = 'display: none';
+        }
+
+        //set deleteRow buttons events
+        var initializeDeleteBtns = function () {
+            let deleteBtns = document.querySelectorAll('.delete-button');
+            for (var i = 0; i < deleteBtns.length; i++) {
+
+                let columnDiv = deleteBtns[i].closest('.full-column');
+                let isDeleted = columnDiv.querySelector('.is-deleted');
+                deleteBtns[i].addEventListener('click', function (e) {
+                    e.preventDefault();
+                    columnDiv.style.display = 'none';
+                    isDeleted.value = 'deleted';
+                });
+            }
+        }
+
+        //SelectList Changes event
+        type.addEventListener('change', function () {
+            //debugger;
+            //remove validation messages for inputs
+            setErrorMessage(lowerLimit, null);
+            setErrorMessage(upperLimit, null);
+            lowerLimit.value = null;
+            upperLimit.value = null;
+
+            // show inputs for certain types & add 'form-control' class
+            if (type.value == 6 || type.value == 7) {
+                hiddenInputs.style.cssText = 'display:flex;';
+                hiddenInputs.classList.add('visible');
+                for (var i = 0; i < limitsInputs.length; i++) {
+                    limitsInputs[i].classList.add('form-control');
+                }
+
+                // hide div with inputs & remove class 'form-control'
+            } else {
+                hiddenInputs.style.cssText = 'display:none';
+                hiddenInputs.classList.remove('visible');
+                for (var j = 0; j < limitsInputs.length; j++) {
+                    limitsInputs[j].classList.remove('form-control');
+                }
+            }
+            limitsInputs = hiddenInputs.querySelectorAll('input');
+        });
+
+        //Add column button event
+        addColumnBtn.addEventListener('click', function (event) {
+
+            event.preventDefault();
+            removeAllValidationMessages();
+            checkName();
+            checkOrder();
+
+            if (hiddenInputs.classList.contains('visible')) {
+                debugger;
+                checkLimits();
+            }
+
+
+            if (checkValidationErrors() == false) {
+                getColumns(form, actionUrl)
+                    .then((data) => {
+                        $(resultBlock).html(data);
+                        clearInputs();
+                        initializeDeleteBtns();
+                    });
+            }
+
+        });
+
+        initializeDeleteBtns();
+    </script>
+}

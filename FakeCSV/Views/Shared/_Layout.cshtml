@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Helvetica" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true">
+    <title>@ViewBag.Title</title>
+</head>
+
+<body>
+    
+
+@RenderBody()
+    
+<div class="modal" tabindex="-1" id="form-modal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+            </div>
+      
+        </div>
+    </div>
+</div>
+
+@await RenderSectionAsync("Scripts", false)
+</body>
+
+</html>
