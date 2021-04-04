@@ -1,6 +1,6 @@
-<a href="https://fakecsv20210330141524.azurewebsites.net/">Published on Azure</a>
-login: Admin@gmail.com
-pass: Admin@123
+<a href="https://fakecsv20210330141524.azurewebsites.net/">Published on Azure</a><br>
+<b>login: </b> Admin@gmail.com <br>
+<b>pass: </b> Admin@123
 
 
 <h3>THE CHALLENGE</h3>
