@@ -1,4 +1,4 @@
-<h3>THE CHALLENGE</h3> <br>
+<h3>THE CHALLENGE</h3>
 Build an online service for generating CSV files with fake(dummy) data using Python and Django:
 <ul>
 <li>
