@@ -1,3 +1,8 @@
+<a href="https://fakecsv20210330141524.azurewebsites.net/">Published on Azure</a>
+login: Admin@gmail.com
+pass: Admin@123
+
+
 <h3>THE CHALLENGE</h3>
 Build an online service for generating CSV files with fake(dummy) data using Python and Django:
 <ul>
